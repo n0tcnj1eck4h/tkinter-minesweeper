@@ -1,4 +1,3 @@
-import PIL.Image
 from PIL import Image, ImageTk
 
 
@@ -32,6 +31,3 @@ class Skin:
                                  x * self.cell_size + self.cell_size - 1,   y * self.cell_size + self.cell_size - 1))
         image = image.resize((self.size, self.size))
         return ImageTk.PhotoImage(image)
-
-
-

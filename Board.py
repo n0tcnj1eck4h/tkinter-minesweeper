@@ -1,4 +1,3 @@
-from Util import get_surrounding, is_out_of_range
 from tkinter import messagebox
 from Minemanager import *
 from tkinter import *
@@ -14,10 +13,10 @@ class Board(Canvas):
         self.height = 20
         self.mine_count = 60
         self.cell_size = 40
-        self.m1held = False
-        self.m2held = False
+        self._m1held = False
+        self._m2held = False
         self.handle_input = True
-        self.sprite_cache = [[None for x in range(self.width)] for y in range(self.height)]
+        self.sprite_cache = [[None for _x in range(self.width)] for _y in range(self.height)]
 
         self.mine_manager = MineManager(self.width, self.height)
 
@@ -50,11 +49,13 @@ class Board(Canvas):
         for y in self.sprite_cache:
             for x in y:
                 self.delete(x)
-        self.sprite_cache = [[None for x in range(self.width)] for y in range(self.height)]
+        self.sprite_cache = [[None for _x in range(self.width)] for _y in range(self.height)]
 
     def draw_square(self, x, y, fill):
         self.clear_sprite(x, y)
-        self.sprite_cache[y][x] = self.create_rectangle(x * self.cell_size, y * self.cell_size, (x + 1) * self.cell_size,
+        self.sprite_cache[y][x] = self.create_rectangle(x * self.cell_size,
+                                                        y * self.cell_size,
+                                                        (x + 1) * self.cell_size,
                                                         (y + 1) * self.cell_size, fill=fill)
 
     def draw_image(self, x, y, image):
@@ -80,7 +81,7 @@ class Board(Canvas):
         x, y = self.get_clicked_square(event)
         if is_out_of_range(x, y, self.width, self.height):
             return
-        if self.m1held:
+        if self._m1held:
             if self.mine_manager.is_uncovered_at(x, y):
                 for x, y in get_surrounding(x, y, self.width, self.height, True):
                     if not self.mine_manager.is_uncovered_at(x, y) and not self.mine_manager.has_flag_at(x, y):
@@ -109,7 +110,7 @@ class Board(Canvas):
     def _m1down(self, event):
         if not self.handle_input:
             return
-        self.m1held = True
+        self._m1held = True
         self.draw_board()
         self.draw_hover(event)
 
@@ -124,7 +125,7 @@ class Board(Canvas):
         if not self.mine_manager.populated:
             self.mine_manager.populate(self.mine_count, (x, y))
 
-        self.m1held = False
+        self._m1held = False
         if self.mine_manager.is_uncovered_at(x, y):
             self.mine_manager.uncover_remaining(x, y)
         else:
@@ -155,13 +156,13 @@ class Board(Canvas):
         if not is_out_of_range(x, y, self.width, self.height):
             self.mine_manager.toggle_flag(x, y)
 
-        self.m2held = True
+        self._m2held = True
         self.draw_board()
 
-    def _m2release(self, event):
+    def _m2release(self, _event):
         if not self.handle_input:
             return
-        self.m2held = False
+        self._m2held = False
         self.draw_board()
 
     def _resize(self, event):
@@ -172,4 +173,3 @@ class Board(Canvas):
             self.draw_fail()
         elif self.mine_manager.is_win():
             self.draw_win()
-

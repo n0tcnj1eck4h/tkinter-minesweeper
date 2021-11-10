@@ -10,4 +10,3 @@ def get_surrounding(x, y, board_width, board_height, include_middle=False):
             if not include_middle and i == j == 0:
                 continue
             yield x + i, y + j
-

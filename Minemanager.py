@@ -7,7 +7,7 @@ import time
 class MineManager:
     def __init__(self, width, height):
         # (Mine, Uncover, Flag)
-        self.cells = [[Cell(False, False, False) for x in range(width)] for y in range(height)]
+        self.cells = [[Cell(False, False, False) for _x in range(width)] for _y in range(height)]
         self.mine_count = 0
         self.cells_uncovered = 0
         self.width = width
@@ -16,11 +16,11 @@ class MineManager:
         self.populated = False
         self.populated_timestamp = 0
 
-    def populate(self, mine_count, exclude=(-1, -1), force_no_guessing=False):
+    def populate(self, mine_count, exclude=(-1, -1)):
         self.mine_count = mine_count
-        self.cells = [[Cell(False, False, self.has_flag_at(x, y)) for x in range(self.width)] for y in range(self.height)]
+        self.cells = \
+            [[Cell(False, False, self.has_flag_at(x, y)) for x in range(self.width)] for y in range(self.height)]
         for i in range(mine_count):
-            x, y = 0, 0
             while True:
                 x = random.randint(0, self.width - 1)
                 y = random.randint(0, self.height - 1)

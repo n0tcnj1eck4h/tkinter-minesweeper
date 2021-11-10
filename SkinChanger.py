@@ -19,4 +19,3 @@ class SkinChanger(Toplevel):
         self.board.skin = Skin(os.path.join("Skins", skin), self.board.cell_size)
         self.board.draw_board()
         self.destroy()
-

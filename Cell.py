@@ -12,4 +12,3 @@ class Cell:
     def uncover(self):
         if not self.flagged:
             self.uncovered = True
-
