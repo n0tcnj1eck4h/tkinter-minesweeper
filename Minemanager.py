@@ -1,6 +1,7 @@
 from Cell import *
 from Util import get_surrounding, is_out_of_range
 import random
+import time
 
 
 class MineManager:
@@ -13,6 +14,7 @@ class MineManager:
         self.height = height
         self.failed = False
         self.populated = False
+        self.populated_timestamp = 0
 
     def populate(self, mine_count, exclude=(-1, -1), force_no_guessing=False):
         self.mine_count = mine_count
@@ -28,6 +30,7 @@ class MineManager:
                     break
             self.cells[y][x].mine = True
         self.populated = True
+        self.populated_timestamp = time.time()
 
     def is_win(self):
         return self.height * self.width - self.mine_count == self.cells_uncovered

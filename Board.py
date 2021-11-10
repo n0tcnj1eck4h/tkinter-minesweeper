@@ -1,8 +1,9 @@
-from tkinter import *
+from Util import get_surrounding, is_out_of_range
+from tkinter import messagebox
 from Minemanager import *
+from tkinter import *
 from Skin import *
 import math
-from Util import get_surrounding, is_out_of_range
 
 
 class Board(Canvas):
@@ -137,6 +138,8 @@ class Board(Canvas):
         elif self.mine_manager.is_win():
             self.handle_input = False
             self.draw_win()
+            messagebox.showinfo("Wygrana!", "Twój czas to: {}s"
+                                .format(round(time.time() - self.mine_manager.populated_timestamp)))
 
     def _m1motion(self, event):
         if not self.handle_input:
